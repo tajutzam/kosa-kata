@@ -1,0 +1,1227 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="theme-color" content="#FFD93D" />
+    <meta
+      name="description"
+      content="Simpan kata baru, latih ingatan, dan tambah percaya diri berbahasa Inggris."
+    />
+    <link rel="manifest" href="manifest.webmanifest" />
+    <link rel="apple-touch-icon" href="icon-192.png" />
+    <title>Kantong Kata — Sedikit tiap hari.</title>
+    <style>
+      /* Fondasi dan komponen neobrutalism */
+      @import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap");
+      :root {
+        color-scheme: light dark;
+        --bg: #fffbf0;
+        --paper: #fffef9;
+        --ink: #181818;
+        --muted: #595953;
+        --line: #181818;
+        --yellow: #ffd93d;
+        --shadow: 4px 4px 0 var(--line);
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--ink);
+        font-family: "Space Grotesk", Arial, sans-serif;
+        font-size: 16px;
+      }
+      button,
+      input,
+      select,
+      textarea {
+        font: inherit;
+        color: inherit;
+        border: 3px solid var(--line);
+        border-radius: 3px;
+      }
+      button {
+        min-height: 44px;
+        padding: 10px 16px;
+        background: var(--paper);
+        font-weight: 700;
+        cursor: pointer;
+        box-shadow: 3px 3px 0 var(--line);
+        transition:
+          transform 0.12s,
+          box-shadow 0.12s;
+      }
+      button:hover {
+        transform: translate(2px, 2px);
+        box-shadow: 1px 1px 0 var(--line);
+      }
+      button:active {
+        transform: translate(3px, 3px);
+        box-shadow: none;
+      }
+      button:disabled {
+        opacity: 0.5;
+        cursor: default;
+      }
+      button:focus-visible,
+      input:focus-visible,
+      select:focus-visible,
+      textarea:focus-visible {
+        outline: 3px solid #4d96ff;
+        outline-offset: 4px;
+      }
+      .yellow {
+        background: #ffd93d;
+        color: #181818;
+      }
+      .pink {
+        background: #ff6b9d;
+        color: #181818;
+      }
+      .green {
+        background: #6bcb77;
+        color: #181818;
+      }
+      .blue {
+        background: #4d96ff;
+        color: #101010;
+      }
+      .wrap {
+        max-width: 1200px;
+        margin: auto;
+        padding: 0 32px;
+      }
+      header {
+        border-bottom: 3px solid var(--line);
+      }
+      nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+        min-height: 94px;
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-size: 22px;
+        font-weight: 700;
+        letter-spacing: -1px;
+      }
+      .logo {
+        display: grid;
+        place-items: center;
+        width: 42px;
+        height: 42px;
+        background: var(--yellow);
+        color: #181818;
+        border: 3px solid var(--line);
+        box-shadow: 3px 3px 0 var(--line);
+        transform: rotate(-5deg);
+      }
+      .actions {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+      .hero {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 28px;
+        padding: 48px 0 32px;
+      }
+      .eyebrow {
+        font-size: 12px;
+        letter-spacing: 2px;
+        font-weight: 700;
+        text-transform: uppercase;
+        margin: 0 0 14px;
+      }
+      h1 {
+        font-size: clamp(36px, 5vw, 60px);
+        letter-spacing: -3px;
+        line-height: 1.06;
+        margin: 0 0 18px;
+      }
+      h1 span {
+        background: var(--yellow);
+        color: #181818;
+        padding: 0 8px;
+      }
+      p {
+        line-height: 1.6;
+      }
+      .sub {
+        color: var(--muted);
+        margin: 0;
+      }
+      .hero-note {
+        width: 175px;
+        flex-shrink: 0;
+        padding: 22px;
+        background: #ff6b9d;
+        color: #181818;
+        border: 3px solid var(--line);
+        box-shadow: var(--shadow);
+        transform: rotate(4deg);
+        font-size: 18px;
+        font-weight: 700;
+      }
+      .hero-note strong {
+        font-size: 34px;
+        display: block;
+      }
+      .stats {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1.4fr;
+        gap: 20px;
+        margin: 10px 0 40px;
+      }
+      .stat {
+        border: 3px solid var(--line);
+        box-shadow: var(--shadow);
+        padding: 20px 24px;
+        background: var(--paper);
+        display: flex;
+        align-items: center;
+        gap: 18px;
+      }
+      .stat strong {
+        font-size: 40px;
+        letter-spacing: -2px;
+      }
+      .stat small {
+        font-size: 13px;
+        color: var(--muted);
+      }
+      .progress {
+        flex: 1;
+      }
+      .track {
+        height: 10px;
+        border: 2px solid var(--line);
+        margin-top: 10px;
+        background: var(--bg);
+      }
+      .fill {
+        height: 100%;
+        background: #6bcb77;
+        width: 0;
+      }
+      .section-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 18px;
+        margin-bottom: 22px;
+      }
+      h2 {
+        font-size: 25px;
+        letter-spacing: -1px;
+        margin: 0;
+      }
+      .count {
+        font-size: 14px;
+        color: var(--muted);
+        margin-left: 8px;
+        font-weight: 400;
+      }
+      .filters {
+        display: grid;
+        grid-template-columns: 2fr 1fr 1fr 1.2fr;
+        gap: 16px;
+        margin-bottom: 26px;
+      }
+      input,
+      select,
+      textarea {
+        width: 100%;
+        padding: 12px;
+        background: var(--paper);
+        min-height: 48px;
+      }
+      label {
+        display: block;
+        font-size: 13px;
+        font-weight: 700;
+        margin-bottom: 8px;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 24px;
+      }
+      .card {
+        border: 3px solid var(--line);
+        box-shadow: var(--shadow);
+        background: var(--paper);
+        padding: 22px;
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+      }
+      .card-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+      }
+      .badge {
+        font-size: 11px;
+        font-weight: 700;
+        padding: 5px 8px;
+        border: 2px solid #181818;
+        color: #181818;
+        border-radius: 2px;
+      }
+      .sound {
+        box-shadow: none;
+        padding: 4px 10px;
+        font-size: 18px;
+      }
+      .card h3 {
+        font-size: 25px;
+        letter-spacing: -1px;
+        overflow-wrap: anywhere;
+        margin: 20px 0 7px;
+      }
+      .meaning {
+        margin: 0 0 18px;
+        overflow-wrap: anywhere;
+      }
+      .example {
+        font-size: 14px;
+        color: var(--muted);
+        border-left: 3px solid var(--line);
+        padding-left: 12px;
+        margin: 0 0 24px;
+        overflow-wrap: anywhere;
+      }
+      .card-bottom {
+        margin-top: auto;
+        border-top: 2px solid var(--line);
+        padding-top: 16px;
+      }
+      .status {
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 1px;
+        display: block;
+        margin-bottom: 12px;
+      }
+      .card-actions {
+        display: flex;
+        gap: 9px;
+      }
+      .card-actions button {
+        padding: 8px;
+        font-size: 12px;
+        box-shadow: 2px 2px 0 var(--line);
+      }
+      .card-actions button:first-child {
+        flex: 1;
+      }
+      .empty {
+        grid-column: 1/-1;
+        text-align: center;
+        padding: 48px;
+        border: 3px dashed var(--line);
+      }
+      footer {
+        display: flex;
+        justify-content: space-between;
+        gap: 20px;
+        border-top: 3px solid var(--line);
+        margin-top: 48px;
+        padding: 24px 0 32px;
+        font-size: 12px;
+        color: var(--muted);
+      }
+      dialog {
+        background: var(--bg);
+        color: var(--ink);
+        border: 3px solid var(--line);
+        border-radius: 3px;
+        box-shadow: 7px 7px 0 var(--line);
+        padding: 28px;
+        max-width: 540px;
+        width: calc(100% - 32px);
+        max-height: 90dvh;
+      }
+      dialog::backdrop {
+        background: #0009;
+      }
+      dialog h2 {
+        margin-bottom: 20px;
+      }
+      .field {
+        margin: 18px 0;
+      }
+      .dialog-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+      }
+      .close {
+        box-shadow: none;
+        padding: 5px 12px;
+        font-size: 20px;
+      }
+      .hint {
+        font-size: 13px;
+        color: var(--muted);
+      }
+      #toast {
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: var(--ink);
+        color: var(--bg);
+        padding: 14px 22px;
+        z-index: 5;
+        width: max-content;
+        max-width: 90%;
+        border: 2px solid var(--bg);
+      }
+      #storageWarning {
+        padding: 16px;
+        border: 3px solid var(--line);
+        background: #ffd93d;
+        color: #181818;
+        margin-top: 20px;
+      }
+      .flash {
+        width: 100%;
+        min-height: 240px;
+        margin: 18px 0 24px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 18px;
+        overflow-wrap: anywhere;
+      }
+      .flash strong {
+        font-size: 32px;
+        max-width: 100%;
+      }
+      .flash span {
+        max-width: 100%;
+        font-weight: 400;
+      }
+      .practice-actions {
+        display: flex;
+        gap: 16px;
+      }
+      .practice-actions button {
+        flex: 1;
+      }
+      [hidden] {
+        display: none !important;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #20221f;
+          --paper: #2c2e2a;
+          --ink: #fffbed;
+          --muted: #c4c5bc;
+          --line: #fffbed;
+        }
+        .badge {
+          border-color: #181818;
+        }
+      }
+      @media (max-width: 900px) {
+        .grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+        .stat {
+          padding: 16px;
+          gap: 12px;
+        }
+        .hero-note {
+          display: none;
+        }
+      }
+      @media (max-width: 600px) {
+        .wrap {
+          padding: 0 18px;
+        }
+        nav {
+          padding: 18px 0;
+          align-items: flex-start;
+          flex-direction: column;
+          gap: 18px;
+        }
+        .brand {
+          font-size: 22px;
+        }
+        .actions {
+          gap: 10px;
+        }
+        .actions button {
+          font-size: 13px;
+          padding: 8px 12px;
+        }
+        .hero {
+          padding: 32px 0 24px;
+        }
+        h1 {
+          letter-spacing: -2px;
+        }
+        .stats {
+          gap: 10px;
+          margin-bottom: 32px;
+          grid-template-columns: 1fr 1fr;
+        }
+        .stat {
+          padding: 14px;
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 2px;
+        }
+        .stat:last-child {
+          grid-column: 1/-1;
+          flex-direction: row;
+          align-items: center;
+          gap: 20px;
+        }
+        .stat strong {
+          font-size: 32px;
+        }
+        .filters {
+          grid-template-columns: 1fr 1fr;
+          gap: 12px;
+        }
+        .filters > div:first-child {
+          grid-column: 1/-1;
+        }
+        .grid {
+          grid-template-columns: 1fr;
+        }
+        .section-head {
+          align-items: flex-start;
+        }
+        h2 {
+          font-size: 22px;
+        }
+        .count {
+          display: block;
+          margin: 5px 0 0;
+        }
+        .section-head button {
+          font-size: 13px;
+        }
+        .card {
+          padding: 20px;
+        }
+        footer {
+          flex-direction: column;
+          gap: 8px;
+        }
+        dialog {
+          padding: 20px;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        * {
+          transition: none !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <nav class="wrap">
+        <div class="brand">
+          <span class="logo" aria-hidden="true">K.</span>KANTONG KATA<span
+            style="font-size: 12px; letter-spacing: 0"
+            >/ EN–ID</span
+          >
+        </div>
+        <div class="actions">
+          <button id="install">↧ Pasang aplikasi</button
+          ><button id="export">↑ Export</button
+          ><button id="import">↓ Import</button
+          ><input
+            type="file"
+            id="file"
+            accept=".json,application/json"
+            hidden
+          />
+        </div>
+      </nav>
+    </header>
+    <main class="wrap">
+      <div id="storageWarning" role="alert" hidden></div>
+      <section class="hero">
+        <div>
+          <p class="eyebrow">Kata baru, kemungkinan baru.</p>
+          <h1>Sedikit tiap hari.<br /><span>Makin banyak arti.</span></h1>
+          <p class="sub">
+            Kumpulkan kosakata. Latih ingatan. Pakai di percakapan.
+          </p>
+        </div>
+        <div class="hero-note">
+          <strong>A little<br />every day.</strong>
+          <p style="font-size: 13px; margin-bottom: 0">
+            Satu kata hari ini,<br />satu langkah lebih dekat. ↗
+          </p>
+        </div>
+      </section>
+      <section class="stats" aria-label="Statistik kosakata">
+        <div class="stat">
+          <strong id="total">0</strong><small>Total kosakata</small>
+        </div>
+        <div class="stat">
+          <strong id="memorized">0</strong><small>Sudah hafal ✓</small>
+        </div>
+        <div class="stat">
+          <strong id="percent">0%</strong>
+          <div class="progress">
+            <small>Selangkah lebih lancar</small>
+            <div class="track"><div id="progress" class="fill"></div></div>
+          </div>
+        </div>
+      </section>
+      <section aria-labelledby="collection">
+        <div class="section-head">
+          <h2 id="collection">
+            Koleksi katamu <span id="count" class="count"></span>
+          </h2>
+          <div class="actions">
+            <button id="practice" class="pink">◇ Latihan</button
+            ><button id="add" class="yellow">+ Tambah kata</button>
+          </div>
+        </div>
+        <div class="filters">
+          <div>
+            <label for="search">Cari kosakata</label
+            ><input
+              id="search"
+              type="search"
+              placeholder="Cari kata atau artinya…"
+            />
+          </div>
+          <div>
+            <label for="categoryFilter">Kategori</label
+            ><select id="categoryFilter">
+              <option value="">Semua kategori</option>
+            </select>
+          </div>
+          <div>
+            <label for="statusFilter">Status hafal</label
+            ><select id="statusFilter">
+              <option value="">Semua status</option>
+              <option value="no">Belum hafal</option>
+              <option value="yes">Sudah hafal</option>
+            </select>
+          </div>
+          <div>
+            <label for="dateFilter">Tanggal ditambahkan</label>
+            <input id="dateFilter" type="date" aria-label="Filter tanggal ditambahkan">
+          </div>
+        </div>
+        <div class="actions" style="margin: -10px 0 26px">
+          <button id="todayFilter" type="button">Hari ini</button>
+          <button id="clearDateFilter" type="button">Semua tanggal</button>
+          <span class="hint">Tanggal ditambahkan, mengikuti waktu perangkat.</span>
+        </div>
+        <div id="cards" class="grid"></div>
+      </section>
+      <footer>
+        <span><b>KANTONG KATA</b> · Ruang kecil untuk kata-kata besar.</span
+        ><span>Disimpan di browser ini. Export rutin agar tetap aman.</span>
+      </footer>
+    </main>
+    <dialog id="editor">
+      <div class="dialog-head">
+        <h2 id="editorTitle">Tambah kosakata</h2>
+        <button class="close" data-close="editor" aria-label="Tutup form">
+          ×
+        </button>
+      </div>
+      <form id="form">
+        <div class="field">
+          <label for="word">Kata / frasa Inggris *</label
+          ><input
+            id="word"
+            required
+            maxlength="200"
+            placeholder="Contoh: make a decision"
+          />
+        </div>
+        <div class="field">
+          <label for="meaning">Arti dalam bahasa Indonesia *</label
+          ><input
+            id="meaning"
+            required
+            maxlength="500"
+            placeholder="Contoh: membuat keputusan"
+          />
+        </div>
+        <div class="field">
+          <label for="example"
+            >Kalimat contoh <span class="hint">(opsional)</span></label
+          ><textarea
+            id="example"
+            rows="3"
+            maxlength="1500"
+            placeholder="I need to make a decision today."
+          ></textarea>
+        </div>
+        <div class="field">
+          <label for="category">Kategori</label
+          ><select id="category"></select>
+        </div>
+        <button class="yellow" type="submit" style="width: 100%">
+          Simpan kosakata ↗
+        </button>
+      </form>
+    </dialog>
+    <dialog id="trainer">
+      <div class="dialog-head">
+        <h2>Latihan ingatan</h2>
+        <button class="close" data-close="trainer" aria-label="Tutup latihan">
+          ×
+        </button>
+      </div>
+      <p id="practiceMeta" class="hint"></p>
+      <button id="flash" class="flash yellow" aria-label="Balik kartu"></button
+      ><button id="practiceSound" style="margin-bottom: 20px">
+        ♪ Dengarkan
+      </button>
+      <div class="practice-actions">
+        <button id="notYet">Belum</button
+        ><button id="know" class="green">Hafal ✓</button>
+      </div>
+      <button id="restart" class="pink" hidden>Latihan lagi ↻</button>
+    </dialog>
+    <dialog id="installHelp">
+      <div class="dialog-head">
+        <h2>Pasang Kantong Kata</h2>
+        <button
+          class="close"
+          data-close="installHelp"
+          aria-label="Tutup petunjuk"
+        >
+          ×
+        </button>
+      </div>
+      <p>
+        <b>Android:</b> buka halaman ini di Chrome, lalu pilih menu ⋮ →
+        <b>Instal aplikasi</b> atau <b>Tambahkan ke layar utama</b>.
+      </p>
+      <p>
+        <b>iPhone:</b> buka di Safari, ketuk Bagikan →
+        <b>Tambahkan ke Layar Utama</b>.
+      </p>
+      <p class="hint">
+        Jika sudah terpasang, buka lewat ikon aplikasi. Akses halaman sekali
+        saat online agar aplikasi siap digunakan offline.
+      </p>
+    </dialog>
+    <div id="toast" role="status" hidden></div>
+    <script>
+      "use strict";
+      // Data dan penyimpanan: hanya satu key, tanpa backend.
+      const KEY = "vocab-app-data",
+        categories = [
+          "Collocation",
+          "Phrasal Verb",
+          "Kata Sifat",
+          "Pekerjaan",
+          "Travel",
+          "Teknologi",
+          "Linking Word",
+          "Lainnya",
+        ],
+        colors = [
+          "#FFD93D",
+          "#FF6B9D",
+          "#6BCB77",
+          "#4D96FF",
+          "#b6d3ff",
+          "#b5e5bd",
+          "#ffc2d8",
+          "#e1d9bd",
+        ];
+      const $ = (id) => document.getElementById(id);
+      const uid = () =>
+        crypto.randomUUID
+          ? crypto.randomUUID()
+          : Date.now().toString(36) + Math.random().toString(36).slice(2);
+      let data = [],
+        editId = null,
+        queue = [],
+        cursor = 0,
+        flipped = false,
+        deferredInstall = null,
+        toastTimer;
+      function notify(message) {
+        $("toast").textContent = message;
+        $("toast").hidden = false;
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => ($("toast").hidden = true), 4500);
+      }
+      function storageError(message) {
+        $("storageWarning").textContent = message;
+        $("storageWarning").hidden = false;
+      }
+      function validate(items) {
+        if (!Array.isArray(items) || items.length > 10000)
+          throw Error(
+            "Format backup harus berupa daftar, maksimal 10.000 kata.",
+          );
+        const ids = new Set();
+        return items.map((v) => {
+          if (
+            !v ||
+            typeof v.id !== "string" ||
+            !v.id ||
+            v.id.length > 200 ||
+            ids.has(v.id) ||
+            typeof v.word !== "string" ||
+            !v.word.trim() ||
+            v.word.length > 200 ||
+            typeof v.meaning !== "string" ||
+            !v.meaning.trim() ||
+            v.meaning.length > 500 ||
+            typeof v.example !== "string" ||
+            v.example.length > 1500 ||
+            !categories.includes(v.category) ||
+            typeof v.memorized !== "boolean" ||
+            typeof v.createdAt !== "string" ||
+            !Number.isFinite(Date.parse(v.createdAt))
+          )
+            throw Error(
+              "Data tidak valid: periksa field, kategori, tanggal, dan ID unik.",
+            );
+          ids.add(v.id);
+          return {
+            id: v.id,
+            word: v.word.trim(),
+            meaning: v.meaning.trim(),
+            example: v.example.trim(),
+            category: v.category,
+            memorized: v.memorized,
+            createdAt: new Date(v.createdAt).toISOString(),
+          };
+        });
+      }
+      function save(next) {
+        try {
+          localStorage.setItem(KEY, JSON.stringify(next));
+          data = next;
+          $("storageWarning").hidden = true;
+          render();
+          return true;
+        } catch (e) {
+          storageError(
+            "Perubahan belum tersimpan. Penyimpanan browser diblokir atau penuh. Export data yang ada sebagai backup.",
+          );
+          return false;
+        }
+      }
+      function load() {
+        try {
+          const raw = localStorage.getItem(KEY);
+          if (raw !== null) {
+            data = validate(JSON.parse(raw));
+            return;
+          }
+          data = [
+            [
+              "make a decision",
+              "membuat keputusan",
+              "I need to make a decision today.",
+              "Collocation",
+            ],
+            [
+              "give up",
+              "menyerah",
+              "Don’t give up on your dreams.",
+              "Phrasal Verb",
+            ],
+            [
+              "look forward to",
+              "menantikan",
+              "I look forward to seeing you.",
+              "Phrasal Verb",
+            ],
+            [
+              "figure out",
+              "memahami / mencari tahu",
+              "Let’s figure out how this works.",
+              "Phrasal Verb",
+            ],
+            [
+              "run out of",
+              "kehabisan",
+              "We ran out of coffee this morning.",
+              "Phrasal Verb",
+            ],
+          ].map((v, i) => ({
+            id: uid(),
+            word: v[0],
+            meaning: v[1],
+            example: v[2],
+            category: v[3],
+            memorized: false,
+            createdAt: new Date(Date.now() - i * 1000).toISOString(),
+          }));
+          try {
+            localStorage.setItem(KEY, JSON.stringify(data));
+          } catch (e) {
+            storageError(
+              "Penyimpanan browser tidak tersedia. Contoh ditampilkan, tetapi perubahan belum dapat disimpan.",
+            );
+          }
+        } catch (e) {
+          storageError(
+            "Data browser tidak dapat dibaca. Data asli tidak ditimpa. Pulihkan melalui Import backup JSON.",
+          );
+        }
+      }
+      // Semua teks pengguna dibuat sebagai textContent, bukan HTML.
+      function node(tag, text, cls) {
+        const n = document.createElement(tag);
+        if (text !== undefined) n.textContent = text;
+        if (cls) n.className = cls;
+        return n;
+      }
+      function button(text, action, cls) {
+        const b = node("button", text, cls);
+        b.type = "button";
+        b.onclick = action;
+        return b;
+      }
+      // Gunakan tanggal lokal agar kata sekitar tengah malam masuk hari yang benar.
+      function localDay(value) {
+        const date = new Date(value);
+        return [date.getFullYear(), String(date.getMonth() + 1).padStart(2, "0"), String(date.getDate()).padStart(2, "0")].join("-");
+      }
+      function filtered() {
+        const q = $("search").value.trim().toLocaleLowerCase();
+        return data
+          .filter(
+            (v) =>
+              (!q ||
+                (v.word + " " + v.meaning).toLocaleLowerCase().includes(q)) &&
+              (!$("categoryFilter").value ||
+                v.category === $("categoryFilter").value) &&
+              (!$("statusFilter").value ||
+                v.memorized === ($("statusFilter").value === "yes")) &&
+              (!$("dateFilter").value || localDay(v.createdAt) === $("dateFilter").value),
+          )
+          .sort((a, b) => Date.parse(b.createdAt) - Date.parse(a.createdAt));
+      }
+      function speak(word) {
+        if (!("speechSynthesis" in window)) {
+          notify("Pengucapan belum didukung browser ini.");
+          return;
+        }
+        speechSynthesis.cancel();
+        const u = new SpeechSynthesisUtterance(word);
+        u.lang = "en-US";
+        u.rate = 0.85;
+        u.onerror = (e) => {
+          if (e.error !== "interrupted" && e.error !== "canceled")
+            notify(
+              "Suara tidak tersedia. Periksa koneksi atau pengaturan suara perangkat.",
+            );
+        };
+        speechSynthesis.speak(u);
+      }
+      function render() {
+        const known = data.filter((v) => v.memorized).length,
+          pct = data.length ? Math.round((known / data.length) * 100) : 0;
+        $("total").textContent = data.length;
+        $("memorized").textContent = known;
+        $("percent").textContent = pct + "%";
+        $("progress").style.width = pct + "%";
+        const list = filtered();
+        $("count").textContent = list.length + " kata";
+        $("cards").replaceChildren();
+        $("practice").disabled = !list.length;
+        if (!list.length) {
+          $("cards").append(
+            node(
+              "div",
+              data.length
+                ? "Belum ada yang cocok. Coba kata kunci atau filter lain."
+                : "Kantongmu masih kosong. Tambahkan kata pertamamu!",
+              "empty",
+            ),
+          );
+          return;
+        }
+        for (const v of list) {
+          const card = node("article", undefined, "card"),
+            top = node("div", undefined, "card-top"),
+            badge = node("span", v.category, "badge");
+          badge.style.background = colors[categories.indexOf(v.category)];
+          const sound = button("♪", () => speak(v.word), "sound");
+          sound.setAttribute("aria-label", "Ucapkan " + v.word);
+          top.append(badge, sound);
+          card.append(top, node("h3", v.word), node("p", v.meaning, "meaning"));
+          if (v.example)
+            card.append(node("p", "“" + v.example + "”", "example"));
+          const bottom = node("div", undefined, "card-bottom"),
+            row = node("div", undefined, "card-actions");
+          bottom.append(
+            node(
+              "span",
+              v.memorized ? "● SUDAH HAFAL" : "○ BELUM HAFAL",
+              "status",
+            ),
+          );
+          const toggle = button(
+            v.memorized ? "✓ Sudah hafal" : "Tandai hafal",
+            () =>
+              save(
+                data.map((x) =>
+                  x.id === v.id ? { ...x, memorized: !x.memorized } : x,
+                ),
+              ),
+            v.memorized ? "green" : "",
+          );
+          toggle.setAttribute("aria-pressed", String(v.memorized));
+          row.append(
+            toggle,
+            button("Edit", () => openEditor(v)),
+            button("Hapus", () => {
+              if (confirm("Hapus “" + v.word + "” dari koleksi?"))
+                if (save(data.filter((x) => x.id !== v.id)))
+                  notify("Kosakata dihapus.");
+            }),
+          );
+          bottom.append(row);
+          card.append(bottom);
+          $("cards").append(card);
+        }
+      }
+      // Form tambah/edit dan filter.
+      for (const c of categories) {
+        $("category").add(new Option(c, c));
+        $("categoryFilter").add(new Option(c, c));
+      }
+      function openEditor(v) {
+        editId = v?.id || null;
+        $("form").reset();
+        $("editorTitle").textContent = v ? "Edit kosakata" : "Tambah kosakata";
+        if (v)
+          for (const key of ["word", "meaning", "example", "category"])
+            $(key).value = v[key];
+        $("editor").showModal();
+        $("word").focus();
+      }
+      $("add").onclick = () => openEditor();
+      document
+        .querySelectorAll("[data-close]")
+        .forEach((b) => (b.onclick = () => $(b.dataset.close).close()));
+      $("form").onsubmit = (e) => {
+        e.preventDefault();
+        const word = $("word").value.trim(),
+          meaning = $("meaning").value.trim();
+        if (!word || !meaning) {
+          notify("Kata dan arti wajib diisi, bukan hanya spasi.");
+          return;
+        }
+        const old = data.find((v) => v.id === editId),
+          v = {
+            id: old?.id || uid(),
+            createdAt: old?.createdAt || new Date().toISOString(),
+            memorized: old?.memorized || false,
+            word,
+            meaning,
+            example: $("example").value.trim(),
+            category: $("category").value,
+          };
+        if (
+          save(old ? data.map((x) => (x.id === editId ? v : x)) : [...data, v])
+        ) {
+          $("editor").close();
+          notify(old ? "Perubahan disimpan." : "Kata baru masuk kantong!");
+        }
+      };
+      for (const id of ["search", "categoryFilter", "statusFilter", "dateFilter"])
+        $(id).addEventListener("input", render);
+      $("todayFilter").onclick = () => { $("dateFilter").value = localDay(new Date()); render(); };
+      $("clearDateFilter").onclick = () => { $("dateFilter").value = ""; render(); };
+      // Backup JSON digabung berdasarkan ID; konflik meminta persetujuan.
+      $("export").onclick = () => {
+        const url = URL.createObjectURL(
+            new Blob([JSON.stringify(data, null, 2)], {
+              type: "application/json",
+            }),
+          ),
+          a = node("a");
+        a.href = url;
+        a.download =
+          "kantong-kata-" + new Date().toISOString().slice(0, 10) + ".json";
+        a.click();
+        setTimeout(() => URL.revokeObjectURL(url), 1000);
+        notify("Backup JSON diunduh.");
+      };
+      $("import").onclick = () => $("file").click();
+      $("file").onchange = async () => {
+        const f = $("file").files[0];
+        if (!f) return;
+        try {
+          if (f.size > 10 * 1024 * 1024)
+            throw Error("File terlalu besar. Maksimal 10 MB.");
+          const incoming = validate(JSON.parse(await f.text()));
+          if (!incoming.length) {
+            notify("Backup kosong, tidak ada data yang diimpor.");
+            return;
+          }
+          if (
+            !confirm(
+              "Gabungkan " +
+                incoming.length +
+                " kata? Data dengan ID sama akan diperbarui dari backup.",
+            )
+          )
+            return;
+          const merged = new Map(data.map((v) => [v.id, v]));
+          incoming.forEach((v) => merged.set(v.id, v));
+          if (merged.size > 10000)
+            throw Error("Gabungan melebihi batas 10.000 kata.");
+          if (save([...merged.values()])) notify("Backup berhasil diimpor.");
+        } catch (e) {
+          notify("Import gagal. " + e.message);
+        } finally {
+          $("file").value = "";
+        }
+      };
+      // Latihan acak tanpa pengulangan dalam satu sesi.
+      function startPractice() {
+        queue = filtered().map((v) => v.id);
+        for (let i = queue.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [queue[i], queue[j]] = [queue[j], queue[i]];
+        }
+        cursor = 0;
+        showFlash();
+      }
+      function showFlash() {
+        flipped = false;
+        const v = data.find((x) => x.id === queue[cursor]),
+          done = !v;
+        $("practiceMeta").textContent = done
+          ? "Sesi selesai. Sedikit tiap hari, makin melekat!"
+          : "Kartu " +
+            (cursor + 1) +
+            " dari " +
+            queue.length +
+            " · Sesuai filter koleksi";
+        $("flash").hidden = done;
+        $("practiceSound").hidden = done;
+        $("know").hidden = done;
+        $("notYet").hidden = done;
+        $("restart").hidden = !done;
+        $("know").disabled = true;
+        $("notYet").disabled = true;
+        if (v) {
+          $("flash").replaceChildren(
+            node("strong", v.word),
+            node("span", "Ketuk untuk melihat arti ↻"),
+          );
+          $("flash").setAttribute("aria-label", "Lihat arti " + v.word);
+        }
+      }
+      $("practice").onclick = () => {
+        startPractice();
+        $("trainer").showModal();
+      };
+      $("flash").onclick = () => {
+        const v = data.find((x) => x.id === queue[cursor]);
+        if (!v) return;
+        flipped = !flipped;
+        $("flash").replaceChildren(
+          node("strong", flipped ? v.meaning : v.word),
+          node(
+            "span",
+            flipped
+              ? v.example || "Belum ada kalimat contoh."
+              : "Ketuk untuk melihat arti ↻",
+          ),
+        );
+        $("flash").setAttribute(
+          "aria-label",
+          flipped ? "Kembali ke kata Inggris" : "Lihat arti " + v.word,
+        );
+        $("know").disabled = false;
+        $("notYet").disabled = false;
+      };
+      function answer(memorized) {
+        if (
+          save(
+            data.map((v) => (v.id === queue[cursor] ? { ...v, memorized } : v)),
+          )
+        ) {
+          cursor++;
+          showFlash();
+        }
+      }
+      $("know").onclick = () => answer(true);
+      $("notYet").onclick = () => answer(false);
+      $("practiceSound").onclick = () => {
+        const v = data.find((x) => x.id === queue[cursor]);
+        if (v) speak(v.word);
+      };
+      $("restart").onclick = startPractice;
+      // Instalasi PWA dan cache offline.
+      window.addEventListener("beforeinstallprompt", (e) => {
+        e.preventDefault();
+        deferredInstall = e;
+      });
+      $("install").onclick = async () => {
+        if (deferredInstall) {
+          await deferredInstall.prompt();
+          await deferredInstall.userChoice;
+          deferredInstall = null;
+        } else $("installHelp").showModal();
+      };
+      window.addEventListener("appinstalled", () => {
+        notify("Kantong Kata berhasil dipasang.");
+        $("install").hidden = true;
+      });
+      if (
+        matchMedia("(display-mode: standalone)").matches ||
+        navigator.standalone
+      )
+        $("install").hidden = true;
+      if ("serviceWorker" in navigator && location.protocol !== "file:")
+        window.addEventListener("load", () =>
+          navigator.serviceWorker
+            .register("./sw.js")
+            .catch(() =>
+              notify("Mode offline belum siap. Coba muat ulang saat online."),
+            ),
+        );
+      window.addEventListener("storage", (e) => {
+        if (e.key === KEY) {
+          try {
+            data = e.newValue === null ? [] : validate(JSON.parse(e.newValue));
+            render();
+          } catch {
+            storageError(
+              "Perubahan dari tab lain tidak valid. Muat ulang setelah memulihkan backup.",
+            );
+          }
+        }
+      });
+      load();
+      render();
+    </script>
+  </body>
+</html>
