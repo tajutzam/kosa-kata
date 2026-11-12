@@ -1,0 +1,12 @@
+const fs=require('fs'),vm=require('vm'),assert=require('assert');
+const html=fs.readFileSync('kantong-kata/dist/index.html','utf8');
+const script=html.match(/<script>([\s\S]*?)<\/script>/)[1].split('// Form tambah/edit dan filter.')[0];
+let saved=null;const elements={};const context={crypto:require('crypto').webcrypto,document:{getElementById:id=>elements[id]??={value:'',style:{}}},localStorage:{getItem:()=>saved,setItem:(k,v)=>saved=v},setTimeout,clearTimeout};vm.createContext(context);vm.runInContext(script+';render=()=>{};',context);
+const run=s=>vm.runInContext(s,context);
+run('load()');assert.equal(run('data.length'),5);assert.equal(JSON.parse(saved).length,5);
+run('save([]);load()');assert.equal(run('data.length'),0,'empty collection stays empty');
+saved=null;run('load()');run("$('search').value='keputusan'");assert.equal(run('filtered().length'),1);
+assert.throws(()=>run("validate([{id:'bad'}])"));
+run("$('search').value='';save(data.map((v,i)=>({...v,memorized:i===0})));$('statusFilter').value='yes'");assert.equal(run('filtered().length'),1);
+context.localStorage.setItem=()=>{throw Error('quota')};assert.equal(run('save([])'),false);assert.equal(run('data.length'),5,'failed writes preserve existing data');
+console.log('PASS: seed, persistence, empty collection, meaning search, status filter, invalid import, failed writes');
